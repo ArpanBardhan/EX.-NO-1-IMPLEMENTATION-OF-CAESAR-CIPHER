@@ -16,32 +16,63 @@ STEP-4: Else subtract the key from the plain text.
 STEP-5: Display the cipher text obtained above.
 
 ## PROGRAM:
-```python
-def caesar_cipher(text, key):
-    key = int(key)
-    cipher_text = ""
-
-    for char in text:
-        if char.isalpha():
-            shift = key % 26
-            if char.islower():
-                cipher_text += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
-            elif char.isupper():
-                cipher_text += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
-        else:
-            cipher_text += char
-
-    return cipher_text
-
-plain_text = input("Enter the plain text: ")
-key = int(input("Enter the key value: "))
-cipher_text = caesar_cipher(plain_text, key)
-print("Cipher Text:", cipher_text)
-
 ```
+#include <stdio.h>
+#include <string.h>
 
+char* encrypt(char text[], int s) {
+    static char result[100];
+    int i;
+    
+    for (i = 0; i < strlen(text); i++) {
+        char char_ = text[i];
+        
+        if (char_ >= 'A' && char_ <= 'Z') {
+            result[i] = (char)(((int)char_ + s - 65) % 26 + 65);
+        } else if (char_ >= 'a' && char_ <= 'z') {
+            result[i] = (char)(((int)char_ + s - 97) % 26 + 97);
+        } else {
+            result[i] = char_;
+        }
+    }
+    result[i] = '\0';
+    return result;
+}
+
+char* decrypt(char text[], int s) {
+    static char result[100];
+    int i;
+    
+    for (i = 0; i < strlen(text); i++) {
+        char char_ = text[i];
+        
+        if (char_ >= 'A' && char_ <= 'Z') {
+            result[i] = (char)(((int)char_ - s - 65 + 26) % 26 + 65);
+        } else if (char_ >= 'a' && char_ <= 'z') {
+            result[i] = (char)(((int)char_ - s - 97 + 26) % 26 + 97);
+        } else {
+            result[i] = char_;
+        }
+    }
+    result[i] = '\0';
+    return result;
+}
+
+int main() {
+    char text[100];
+    int s;
+    scanf("%s",text);
+    scanf("%d",&s);
+    printf("Text: %s\n", text);
+    printf("Shift: %d\n", s);
+    printf("Cipher: %s\n", encrypt(text, s));
+    printf("Decrypted: %s\n", decrypt(encrypt(text, s), s));
+    
+    return 0;
+}
+```
 ## OUTPUT:
-![Screenshot 2024-08-19 144308](https://github.com/user-attachments/assets/1ee9d52d-bfa6-42a9-9fd4-00940ae88222)
+![Screenshot 2024-11-09 135356](https://github.com/user-attachments/assets/1ab9c397-db7a-4f62-8218-06cf35aa0550)
 
 
 ## RESULT :
